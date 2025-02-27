@@ -162,45 +162,26 @@ else:
     # Perform Conversion
     if st.button("Convert", key="convert_button"):
         try:
-            # Check if units are compatible
-            from_dim = ureg(from_unit).dimensionality
-            to_dim = ureg(to_unit).dimensionality
-            if from_dim != to_dim:
-                st.error(f"⚠ Units are incompatible: Cannot convert {from_unit} to {to_unit}.")
+            # Handle temperature separately due to offset units
+            if from_unit in ["celsius", "fahrenheit", "kelvin"] or to_unit in ["celsius", "fahrenheit", "kelvin"]:
+                temp_quantity = ureg.Quantity(value, getattr(ureg, from_unit))
+                result = temp_quantity.to(getattr(ureg, to_unit))
             else:
                 result = (value * ureg(from_unit)).to(ureg(to_unit))
-                st.success(f"{value} {from_unit} = {result:.4f} {to_unit}")
-                
-                # Add to history
-                st.session_state.history.append({
-                    "from": f"{value} {from_unit}",
-                    "to": f"{result:.4f} {to_unit}",
-                    "category": page
-                })
+
+            st.success(f"{value} {from_unit} = {result:.4f} {to_unit}")
+
+            # Add to history
+            st.session_state.history.append({
+                "from": f"{value} {from_unit}",
+                "to": f"{result:.4f} {to_unit}",
+                "category": page
+            })
+
         except pint.errors.UndefinedUnitError:
             st.error("⚠ Invalid unit selected. Please check your inputs.")
         except Exception as e:
             st.error(f"⚠ An unexpected error occurred: {str(e)}")
-
-    # Reset Button
-    if st.button("Reset", key="reset_button"):
-        st.session_state.history = []  # Clear history
-        st.rerun()  # Reset the app
-
-    # Display History
-    if st.session_state.history:
-        st.markdown("### 📜 Conversion History")
-        for idx, entry in enumerate(st.session_state.history, start=1):
-            st.markdown(f"""
-                <div class="card">
-                    <p><strong>{idx}.</strong> **{entry['from']}** → **{entry['to']}** (Category: {entry['category']})</p>
-                </div>
-            """, unsafe_allow_html=True)
-        
-        # Clear History Button
-        if st.button("Clear History", key="clear_history_button"):
-            st.session_state.history = []
-            st.rerun()
 
 # --- FOOTER ---
 st.markdown("""
