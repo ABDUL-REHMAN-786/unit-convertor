@@ -21,15 +21,18 @@ st.markdown("""
         background-color: #4CAF50; /* Green button */
         color: white;
         font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
     }
     /* Custom card styling */
     .card {
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: #1e1e1e; /* Dark background */
+        background-color: white; /* White background */
         margin-bottom: 20px;
-        color: white; /* White text */
+        color: #2C3E50; /* Dark blue text */
     }
     /* Custom success and error messages */
     .stSuccess {
@@ -49,7 +52,7 @@ st.markdown("""
     /* Custom header styling */
     .header {
         text-align: center;
-        color: white; /* White text */
+        color: #2C3E50; /* Dark blue text */
     }
     /* Custom footer styling */
     .footer {
@@ -57,17 +60,20 @@ st.markdown("""
         color: #7f8c8d; /* Gray text */
         margin-top: 30px;
     }
-    /* White text for all other elements */
+    /* Light background for the entire app */
     body {
-        color: white;
+        background-color: #f0f2f6; /* Light gray background */
+        color: #2C3E50; /* Dark blue text */
     }
-    /* Green text for input fields */
+    /* Dark text for input fields */
     .stNumberInput>div>div>input {
-        color: #00ff00; /* Bright green */
+        color: #2C3E50; /* Dark blue text */
+        background-color: white; /* White background */
     }
-    /* White text for select boxes */
+    /* Dark text for select boxes */
     .stSelectbox>div>div>div {
-        color: white;
+        color: #2C3E50; /* Dark blue text */
+        background-color: white; /* White background */
     }
     </style>
 """, unsafe_allow_html=True)
@@ -75,8 +81,8 @@ st.markdown("""
 # --- HEADER ---
 st.markdown("""
     <div class="header">
-        <h1>🔄 Advanced Unit Converter</h1>
-        <h4 style='color: white;'>Convert between 1000+ units across multiple categories</h4>
+        <h1 style='color: green;'>🔄 Advanced Unit Converter</h1>
+        <h4 style='color: red;'>Convert between 1000+ units across multiple categories</h4>
         <hr style='border: 1px solid #ddd;'>
     </div>
 """, unsafe_allow_html=True)
@@ -105,7 +111,7 @@ if page == "🏠 Home":
         <div class="card">
             <div style='text-align: center;'>
                 <h2>Welcome to the Ultimate Unit Converter</h2>
-                <p style='color: white;'>A powerful, responsive, and professional unit converter supporting 1000+ units.</p>
+                <p style='color: #2C3E50;'>A powerful, responsive, and professional unit converter supporting 1000+ units.</p>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -140,7 +146,7 @@ else:
         "🧪 Scientific & Misc": ["newton", "pascal", "bar", "atmosphere", "coulomb", "farad", "henry", "ohm"]
     }
 
-    st.markdown(f"<h2 style='text-align: center; color: white;'>{page}</h2>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='text-align: center; color: #2C3E50;'>{page}</h2>", unsafe_allow_html=True)
     
     # Select Units
     units = unit_categories[page]
