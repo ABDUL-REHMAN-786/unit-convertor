@@ -101,8 +101,7 @@ page = st.sidebar.radio("Go to", [
     "🎛 Power",
     "💡 Energy",
     "⏳ Time",
-    "📦 Density",
-    "🧪 Scientific & Misc"
+    "📦 Density"
 ])
 
 # Homepage
@@ -131,20 +130,20 @@ if page == "🏠 Home":
     """, unsafe_allow_html=True)
     
 else:
-    # Unit Categories
+
+
     unit_categories = {
-        "📏 Length & Distance": ["meter", "kilometer", "mile", "inch", "foot", "yard", "centimeter", "millimeter", "micrometer", "nanometer"],
-        "⚖️ Weight & Mass": ["gram", "kilogram", "pound", "ounce", "ton", "stone", "carat"],
-        "🌡 Temperature": ["celsius", "fahrenheit", "kelvin"],
-        "🛢 Volume": ["liter", "milliliter", "gallon", "cup", "fluid_ounce_us", "pint", "quart"],
-        "🚀 Speed": ["meter/second", "kilometer/hour", "mile/hour", "knot", "foot/second"],
-        "📐 Area": ["square_meter", "square_kilometer", "square_mile", "square_foot", "acre", "hectare"],
-        "🎛 Power": ["watt", "kilowatt", "horsepower", "megawatt"],
-        "💡 Energy": ["joule", "calorie", "electron_volt", "kilojoule", "megajoule", "watt_hour", "kilowatt_hour"],
-        "⏳ Time": ["second", "minute", "hour", "day", "week", "month", "year"],
-        "📦 Density": ["kilogram/meter**3", "gram/milliliter", "pound/gallon", "ounce/inch**3"],
-        "🧪 Scientific & Misc": ["newton", "pascal", "bar", "atmosphere", "coulomb", "farad", "henry", "ohm"]
-    }
+    "📏 Length & Distance": ["meter", "kilometer", "mile", "inch", "foot", "yard", "centimeter", "millimeter", "micrometer", "nanometer"],
+    "⚖️ Weight & Mass": ["gram", "kilogram", "pound", "ounce", "ton", "stone", "carat"],
+    "🌡 Temperature": ["celsius", "fahrenheit", "kelvin"],
+    "🛢 Volume": ["liter", "milliliter", "gallon", "cup", "fluid_ounce_us", "pint", "quart"],
+    "🚀 Speed": ["meter/second", "kilometer/hour", "mile/hour", "knot", "foot/second"],
+    "📐 Area": ["square meter", "square kilometer", "square mile", "square foot", "acre", "hectare"],
+    "🎛 Power": ["watt", "kilowatt", "horsepower", "megawatt"],
+    "💡 Energy": ["joule", "calorie", "electron volt", "kilojoule", "megajoule", "watt hour", "kilowatt hour"],
+    "⏳ Time": ["second", "minute", "hour", "day", "week", "month", "year"],
+    "📦 Density": ["kilogram/meter**3", "gram/milliliter", "pound/gallon", "ounce/inch**3"]
+}
 
     st.markdown(f"<h2 style='text-align: center; color: #2C3E50;'>{page}</h2>", unsafe_allow_html=True)
     
