@@ -14,66 +14,36 @@ if "history" not in st.session_state:
 # Custom CSS for styling
 st.markdown("""
     <style>
-    /* Center buttons */
     .stButton>button {
         display: block;
         margin: 0 auto;
-        background-color: #4CAF50; /* Green button */
+        background-color: #4CAF50;
         color: white;
         font-weight: bold;
         border: none;
         border-radius: 5px;
         padding: 10px 20px;
     }
-    /* Custom card styling */
     .card {
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        background-color: white; /* White background */
+        background-color: white;
         margin-bottom: 20px;
-        color: #2C3E50; /* Dark blue text */
+        color: #2C3E50;
     }
-    /* Custom success and error messages */
-    .stSuccess {
-        color: #28a745;
-        background-color: #d4edda;
-        border-color: #c3e6cb;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    .stError {
-        color: #dc3545;
-        background-color: #f8d7da;
-        border-color: #f5c6cb;
-        padding: 10px;
-        border-radius: 5px;
-    }
-    /* Custom header styling */
     .header {
         text-align: center;
-        color: #2C3E50; /* Dark blue text */
+        color: #2C3E50;
     }
-    /* Custom footer styling */
     .footer {
         text-align: center;
-        color: #7f8c8d; /* Gray text */
+        color: #7f8c8d;
         margin-top: 30px;
     }
-    /* Light background for the entire app */
     body {
-        background-color: #f0f2f6; /* Light gray background */
-        color: #2C3E50; /* Dark blue text */
-    }
-    /* Dark text for input fields */
-    .stNumberInput>div>div>input {
-        color: #2C3E50; /* Dark blue text */
-        background-color: white; /* White background */
-    }
-    /* Dark text for select boxes */
-    .stSelectbox>div>div>div {
-        color: #2C3E50; /* Dark blue text */
-        background-color: white; /* White background */
+        background-color: #f0f2f6;
+        color: #2C3E50;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -161,32 +131,36 @@ else:
     # Perform Conversion
     if st.button("Convert", key="convert_button"):
         try:
-            # Check if units are compatible
+            # Get unit dimensionality
             from_dim = ureg(from_unit).dimensionality
             to_dim = ureg(to_unit).dimensionality
+
+            # Check if units are compatible
             if from_dim != to_dim:
                 st.error(f"⚠ Units are incompatible: Cannot convert {from_unit} to {to_unit}.")
             else:
-                result = (value * ureg(from_unit)).to(ureg(to_unit))
+                # Handle temperature separately due to offset units
+                if from_unit in ["celsius", "fahrenheit", "kelvin"] or to_unit in ["celsius", "fahrenheit", "kelvin"]:
+                    temp_quantity = ureg.Quantity(value, getattr(ureg, from_unit))
+                    result = temp_quantity.to(getattr(ureg, to_unit))
+                else:
+                    result = (value * ureg(from_unit)).to(ureg(to_unit))
+
                 st.success(f"{value} {from_unit} = {result:.4f} {to_unit}")
-                
+
                 # Add to history
                 st.session_state.history.append({
                     "from": f"{value} {from_unit}",
                     "to": f"{result:.4f} {to_unit}",
                     "category": page
                 })
+
         except pint.errors.UndefinedUnitError:
             st.error("⚠ Invalid unit selected. Please check your inputs.")
         except Exception as e:
             st.error(f"⚠ An unexpected error occurred: {str(e)}")
 
-    # Reset Button
-    if st.button("Reset", key="reset_button"):
-        st.session_state.history = []  # Clear history
-        st.rerun()  # Reset the app
-
-    # Display History
+    # Display Conversion History
     if st.session_state.history:
         st.markdown("### 📜 Conversion History")
         for idx, entry in enumerate(st.session_state.history, start=1):
@@ -195,7 +169,7 @@ else:
                     <p><strong>{idx}.</strong> **{entry['from']}** → **{entry['to']}** (Category: {entry['category']})</p>
                 </div>
             """, unsafe_allow_html=True)
-        
+
         # Clear History Button
         if st.button("Clear History", key="clear_history_button"):
             st.session_state.history = []
